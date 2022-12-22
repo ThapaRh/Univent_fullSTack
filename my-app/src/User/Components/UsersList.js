@@ -1,10 +1,14 @@
 import React from "react";
+
 import UsersItem from "./UsersItem";
+import Card from "../../Shared/Components/UIComponents/Card";
+import "./UsersList.css"
 
 function UsersList(props){
         if (props.items.length === 0) {
             return (
-            <div className="center"><h1>No Users Available</h1></div>);
+            <div className="center">
+            <Card><h1>No Users Available</h1></Card></div>);
         }
         return (<ul className="users-list">
             {props.items.map(user=>
