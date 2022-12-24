@@ -21,7 +21,7 @@ function App() {
           <Users />
         </Route>
         <Route path="/:userId/orders" exact>
-        <UserOrders></UserOrders>
+        <UserOrders/>
         </Route>
         <Route path="/orders">
           <Orders />
