@@ -8,6 +8,7 @@ import {
 
 import Users from "./User/Pages/Users";
 import Orders from "./Orders/Pages/Orders";
+import UserOrders from "./Orders/Pages/UserOrders";
 import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <Users />
+        </Route>
+        <Route path="/:userId/orders" exact>
+        <UserOrders></UserOrders>
         </Route>
         <Route path="/orders">
           <Orders />
