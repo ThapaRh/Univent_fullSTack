@@ -1,32 +1,35 @@
 //jshint esversion:6
 const express = require("express");
-// const bodyParser = require("body-parser");
-// const https = require("https");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cffRoutes = require("./routes/router");
 
+// switching off strictQuery for the future
+mongoose.set("strictQuery", false);
+
+// creating express app
 const app = express();
 
-app.get("/", function (req, res) {});
+// using bodyParser
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-app.listen(3000, () => {
-  console.log("Server Started on port 3000.");
-});
+// routes
+app.use("/api/cff", cffRoutes);
 
-const { MongoClient } = require("mongodb");
-// Replace the uri string with your connection string.
-const uri =
-  "mongodb+srv://FieldOfHonor1:Cookie1234@cluster0.7cfzpvb.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri);
-async function run() {
-  try {
-    const database = client.db("employees");
-    const records = database.collection("records");
-    // Query for a movie that has the title 'Back to the Future'
-    const query = { name: "Bob Ross" };
-    const employee = await records.findOne(query);
-    console.log(employee);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+//connecting to mongoDB
+mongoose
+  .connect(
+    "mongodb+srv://FieldOfHonor1:Cookie1234@cluster0.7cfzpvb.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(3001, () => {
+      console.log("Server Started on port 3001.");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
