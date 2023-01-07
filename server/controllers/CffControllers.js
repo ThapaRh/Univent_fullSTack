@@ -3,14 +3,20 @@ const mongoose = require("mongoose");
 
 // adding a CFF
 const createCFF = async (req, res) => {
-  CFF.create(req.body, function (err, cff) {
+  const cff = new CFF();
+  cff.FirstName = req.body.FirstName;
+  cff.LastName = req.body.LastName;
+
+  cff.save(function (err, temp) {
     if (err) {
-      res.send("error creating a CFF");
+      res.send("Error creating a CFF");
     } else {
-      console.log(cff);
-      res.send(book);
+      console.log(temp);
+      res.send(temp);
     }
   });
+
+  // return res.json({ status: "ok" });
 };
 
 const getCFF = async (req, res) => {
