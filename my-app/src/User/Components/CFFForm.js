@@ -51,12 +51,12 @@ const CFFForm = () => {
     };
     console.log(cff);
 
-    const response = await fetch("https://localhost:3001/api/cff", {
+    const response = await fetch("http://localhost:3001/api/cff/", {
       method: "POST",
-      body: JSON.stringify(cff),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(cff),
     });
     const json = await response.json();
 
@@ -385,33 +385,34 @@ const CFFForm = () => {
     // </div>
     <div>
       <form onSubmit={handleSubmit}>
-      <div className="col-xs-4 col-sm-4 col-md-4">
-             <label>
-                 <b>First Name</b>
-               </label>
-               <input
-                type="text"
-                className="form-control-md"
-                required
-                min="3"
-                onChange={(e) => setFirstName(e.target.value)}
-                value={FirstName}
-              />
-            </div>
-            <div className="col-xs-4 col-sm-4 col-md-4">
-              <label>
-                <b>Last Name</b>
-              </label>
-              <input
-                type="text"
-                className="form-control-md"
-                required
-                min="3"
-                onChange={(e) => setLastName(e.target.value)}
-                value={LastName}/>
-       </div>
-       <button id="continueBtn">Save</button>
-       </form>
+        <div className="col-xs-4 col-sm-4 col-md-4">
+          <label>
+            <b>First Name</b>
+          </label>
+          <input
+            type="text"
+            className="form-control-md"
+            required
+            min="3"
+            onChange={(e) => setFirstName(e.target.value)}
+            value={FirstName}
+          />
+        </div>
+        <div className="col-xs-4 col-sm-4 col-md-4">
+          <label>
+            <b>Last Name</b>
+          </label>
+          <input
+            type="text"
+            className="form-control-md"
+            required
+            min="3"
+            onChange={(e) => setLastName(e.target.value)}
+            value={LastName}
+          />
+        </div>
+        <button id="continueBtn">Submit</button>
+      </form>
     </div>
   );
 };
