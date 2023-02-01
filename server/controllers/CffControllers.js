@@ -20,6 +20,8 @@ const createCFF = async (req, res) => {
   // return res.json({ status: "ok" });
 };
 
+const update = () => {};
+
 const getCFF = async (req, res) => {
   res.send("<h1>Hello World</h1>");
 };

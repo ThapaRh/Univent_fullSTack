@@ -17,8 +17,19 @@ const CFFForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const cff = { FirstName, LastName, AddressBilling, City, State };
-    const response = await axios.post("http://localhost:3001/api/cff", cff);
-    if (response.ok) {
+    console.log(cff);
+    const response = await fetch("http://localhost:3001/api/cff/", {
+      method: "POST",
+      body: JSON.stringify(cff),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cff),
+    });
+
+    const json = await response.json();
+
+    if (json) {
       setFirstName("");
       setLastName("");
       setAddressBilling("");

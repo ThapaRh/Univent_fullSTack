@@ -19,9 +19,6 @@ app.use(
   })
 );
 
-// routes
-app.use("/api/cff", cffRoutes);
-
 // For CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -33,16 +30,19 @@ app.use((req, res, next) => {
   next();
 });
 
-//connecting to mongoDB
-// mongoose
-//   .connect(
-//     "mongodb+srv://FieldOfHonor1:Cookie1234@cluster0.7cfzpvb.mongodb.net/?retryWrites=true&w=majority"
-//   )
-//   .then(() => {
-//     app.listen(3001, () => {
-//       console.log("Server Started on port 3001.");
-//     });
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
+// routes
+app.use("/api/cff", cffRoutes);
+
+// connecting to mongoDB
+mongoose
+  .connect(
+    "mongodb+srv://FieldofHonor:oBOfvWF7zwe8KkLa@cluster0.9paepmq.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(3001, () => {
+      console.log("Server Started on port 3001.");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
