@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import "./CFFForm.css";
 import Button from "@mui/material/Button";
-import axios from "axios";
 
 const CFFForm = () => {
   const [FirstName, setFirstName] = useState("");
@@ -12,19 +11,27 @@ const CFFForm = () => {
   const [AddressBilling, setAddressBilling] = useState("");
   const [City, setCity] = useState("");
   const [State, setState] = useState("");
+  const [Date, setDate] = useState("");
+  const [Gender, setGender] = useState("");
+  const [Client_name, setClientname] = useState("");
   const [Error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const cff = { FirstName, LastName, AddressBilling, City, State };
-    console.log(cff);
-    const response = await fetch("http://localhost:3001/api/cff/", {
+    const response = await fetch("http://localhost:8000/api/cff/add", {
       method: "POST",
-      body: JSON.stringify(cff),
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(cff),
+      body: JSON.stringify({
+        FirstName,
+        LastName,
+        AddressBilling,
+        City,
+        Date,
+        Gender,
+        Client_name,
+      }),
     });
 
     const json = await response.json();
@@ -35,6 +42,9 @@ const CFFForm = () => {
       setAddressBilling("");
       setCity("");
       setState("");
+      setClientname("");
+      setDate("");
+      setGender("");
     }
   };
 
@@ -79,6 +89,27 @@ const CFFForm = () => {
               variant="outlined"
               value={State}
               onChange={(e) => setState(e.target.value)}
+            />
+            <TextField
+              className="w-100 text-wrapper"
+              label="Date"
+              variant="outlined"
+              value={Date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <TextField
+              className="w-100 text-wrapper"
+              label="Gender"
+              variant="outlined"
+              value={Gender}
+              onChange={(e) => setGender(e.target.value)}
+            />
+            <TextField
+              className="w-100 text-wrapper"
+              label="Client Name"
+              variant="outlined"
+              value={Client_name}
+              onChange={(e) => setClientname(e.target.value)}
             />
             <Button
               className="button-handler"

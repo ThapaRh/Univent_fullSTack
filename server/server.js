@@ -18,6 +18,7 @@ app.use(
     extended: true,
   })
 );
+app.use(bodyParser.json());
 
 // For CORS
 app.use((req, res, next) => {
@@ -36,11 +37,11 @@ app.use("/api/cff", cffRoutes);
 // connecting to mongoDB
 mongoose
   .connect(
-    "mongodb+srv://FieldofHonor:oBOfvWF7zwe8KkLa@cluster0.9paepmq.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://FieldofHonor:oBOfvWF7zwe8KkLa@cluster0.9paepmq.mongodb.net/Fieldofhonor?retryWrites=true&w=majority"
   )
   .then(() => {
-    app.listen(3001, () => {
-      console.log("Server Started on port 3001.");
+    app.listen(8000, () => {
+      console.log("Server Started on port 8000.");
     });
   })
   .catch((error) => {

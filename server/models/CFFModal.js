@@ -24,6 +24,18 @@ const CFFSchema = new Schema(
       type: String,
       required: false,
     },
+    Date: {
+      type: String,
+      required: false,
+    },
+    Gender: {
+      type: String,
+      required: false,
+    },
+    Client_name: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
