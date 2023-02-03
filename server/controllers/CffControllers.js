@@ -2,6 +2,20 @@ const CFF = require("../models/CFFModal");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
+// getting a cff info using id
+const getCFF = async (req, res, next) => {
+  const id = req.params.id;
+
+  let cff;
+  try {
+    cff = await CFF.findById(id);
+  } catch (err) {
+    return next(err);
+  }
+
+  res.status(200).json({ cff: cff.toObject({ getters: true }) });
+};
+
 // adding a CFF
 const createCFF = async (req, res) => {
   const cff = new CFF({
@@ -17,20 +31,74 @@ const createCFF = async (req, res) => {
   try {
     await cff.save();
   } catch (err) {
-    console.log(err);
     return next(err);
   }
 
   return res.status(201).json({ cff });
 };
 
-const update = () => {};
+// updating a CFF info
+const updateCFF = async (req, res, next) => {
+  const {
+    FirstName,
+    LastName,
+    AddressBilling,
+    City,
+    State,
+    Client_name,
+    Date,
+    Gender,
+  } = req.body;
+  const id = req.params.id;
 
-const getCFF = async (req, res) => {
-  res.send("<h1>Hello World</h1>");
+  let cff;
+  try {
+    cff = await CFF.findById(id);
+  } catch (err) {
+    const error = err;
+    return next(error);
+  }
+
+  cff.FirstName = FirstName;
+  cff.LastName = LastName;
+  cff.AddressBilling = AddressBilling;
+  cff.City = City;
+  cff.State = State;
+  cff.Client_name = Client_name;
+  cff.Date = Date;
+  cff.Gender = Gender;
+
+  try {
+    await cff.save();
+  } catch (err) {
+    return next(err);
+  }
+
+  res.status(200).json({ cff: cff.toObject({ getters: true }) });
+};
+
+// deleting a cff using id
+const deleteCFF = async (req, res, next) => {
+  const id = req.params.id;
+  let cff;
+  try {
+    cff = await CFF.findById(id);
+  } catch (err) {
+    return next(err);
+  }
+
+  try {
+    await cff.remove();
+  } catch (err) {
+    return next(err);
+  }
+
+  res.status(200).json({ message: "Deleted Cff." });
 };
 
 module.exports = {
   createCFF,
   getCFF,
+  deleteCFF,
+  updateCFF,
 };
