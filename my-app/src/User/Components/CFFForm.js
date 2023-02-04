@@ -15,6 +15,28 @@ const CFFForm = () => {
   const [Gender, setGender] = useState("");
   const [Client_name, setClientname] = useState("");
   const [Error, setError] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const handleUpload = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("http://localhost:8000/api/cff/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setFile(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +75,7 @@ const CFFForm = () => {
       <Card className="card-wrapper">
         <form className="form-container" onSubmit={handleSubmit}>
           <div className="col-xs-4 col-sm-4 col-md-4">
-            <TextField
+            {/* <TextField
               name="FirstName"
               className="w-100 text-wrapper"
               label="First Name"
@@ -110,10 +132,13 @@ const CFFForm = () => {
               variant="outlined"
               value={Client_name}
               onChange={(e) => setClientname(e.target.value)}
-            />
+            /> */}
+
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+
             <Button
               className="button-handler"
-              onClick={handleSubmit}
+              onClick={handleUpload}
               variant="contained"
             >
               Submit

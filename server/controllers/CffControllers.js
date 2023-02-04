@@ -2,6 +2,13 @@ const CFF = require("../models/CFFModal");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
+// handle a csv file upload
+const handleFileUpload = (req, res, next) => {
+  const file = req.file;
+  console.log(file);
+  res.json({ success: true });
+};
+
 // getting a cff info using id
 const getCFF = async (req, res, next) => {
   const id = req.params.id;
@@ -101,4 +108,5 @@ module.exports = {
   getCFF,
   deleteCFF,
   updateCFF,
+  handleFileUpload,
 };
