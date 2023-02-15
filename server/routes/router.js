@@ -24,7 +24,7 @@ const {
 const router = express.Router();
 
 // route to handle the csv data
-router.post("/upload", upload.single("file"), handleFileUpload);
+router.post("/upload", handleFileUpload);
 
 // route to create a CFF
 router.post("/add", createCFF);

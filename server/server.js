@@ -18,7 +18,7 @@ app.use(
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
 // For CORS
 app.use((req, res, next) => {

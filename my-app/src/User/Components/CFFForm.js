@@ -4,6 +4,8 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import "./CFFForm.css";
 import Button from "@mui/material/Button";
+import * as XLSX from "xlsx";
+// import * as XLSX from "xlsx";
 
 const CFFForm = () => {
   const [FirstName, setFirstName] = useState("");
@@ -15,27 +17,61 @@ const CFFForm = () => {
   const [Gender, setGender] = useState("");
   const [Client_name, setClientname] = useState("");
   const [Error, setError] = useState(null);
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
+  const [jsonExcel, setJsonExcel] = useState("");
+
+  const readExcel = (file) => {
+    const promise = new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+
+        const wb = XLSX.read(bufferArray, { type: "buffer" });
+
+        const wsname = wb.SheetNames[0];
+
+        const ws = wb.Sheets[wsname];
+
+        const data = XLSX.utils.sheet_to_json(ws);
+
+        resolve(data);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+
+    promise.then((d) => {
+      console.log(d);
+      setJsonExcel(d);
+    });
+  };
 
   const handleUpload = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", file);
+    const data = jsonExcel;
 
     const response = await fetch("http://localhost:8000/api/cff/upload", {
       method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data,
+      }),
+    });
 
-    setFile(null);
+    const json = await response.json();
+
+    if (json) {
+      alert("File Successfully uploaded!");
+    } else {
+      alert(response.error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -134,7 +170,13 @@ const CFFForm = () => {
               onChange={(e) => setClientname(e.target.value)}
             /> */}
 
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <input
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                readExcel(file);
+              }}
+            />
 
             <Button
               className="button-handler"

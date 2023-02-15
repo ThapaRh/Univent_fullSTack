@@ -4,8 +4,10 @@ const bodyParser = require("body-parser");
 
 // handle a csv file upload
 const handleFileUpload = (req, res, next) => {
-  const file = req.file;
-  console.log(file);
+  const fileData = req.body.data;
+
+  console.log(fileData[0]);
+
   res.json({ success: true });
 };
 
