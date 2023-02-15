@@ -17,36 +17,38 @@ const CFFForm = () => {
   const [Gender, setGender] = useState("");
   const [Client_name, setClientname] = useState("");
   const [Error, setError] = useState(null);
-  // const [file, setFile] = useState(null);
   const [jsonExcel, setJsonExcel] = useState("");
 
   const readExcel = (file) => {
-    const promise = new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
-      fileReader.onload = (e) => {
-        const bufferArray = e.target.result;
+      reader.onload = (event) => {
+        const data = event.target.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const headers = rows[0];
+        const result = [];
 
-        const wsname = wb.SheetNames[0];
-
-        const ws = wb.Sheets[wsname];
-
-        const data = XLSX.utils.sheet_to_json(ws);
-
-        resolve(data);
+        for (let i = 1; i < rows.length; i++) {
+          const obj = {};
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j]] = rows[i][j];
+          }
+          result.push(obj);
+        }
+        resolve(result);
+        setJsonExcel(result);
       };
 
-      fileReader.onerror = (error) => {
-        reject(error);
+      reader.onerror = (event) => {
+        reject(event);
       };
-    });
 
-    promise.then((d) => {
-      console.log(d);
-      setJsonExcel(d);
+      reader.readAsBinaryString(file);
     });
   };
 
