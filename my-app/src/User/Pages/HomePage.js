@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom';
 import Button from "@mui/material/Button";
 import CarouselExample from "../Components/CarouselExample";
 import NavBar from "../Components/NavBar";
@@ -50,9 +51,11 @@ const HomePage = () => {
         </p>
       </div>
       <p style={{ textAlign: "center" }}>
+      <Link to = "/usersTable">
         <Button className="orderButton" variant="contained">
           Orders
         </Button>
+        </Link>
       </p>
     </div>
   );
