@@ -11,22 +11,21 @@ import Orders from "./Orders/Pages/Orders";
 import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CFFForm from "./User/Components/CFFForm";
-import HomePage from "../src/User/Pages/HomePage";
 
 function App() {
   return (
     <Router>
-      <MainNavigation />
-      <main>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/orders">
-            <Orders />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
+    <MainNavigation/>
+    <main>
+      <Switch>
+        <Route path="/" exact>
+          <Users />
+        </Route>
+        <Route path="/orders">
+          <Orders />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
       </main>
     </Router>
 
