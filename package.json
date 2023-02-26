@@ -1,5 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "react-bootstrap": "^2.7.2"
+=======
+    "react-scripts": "^5.0.1"
+>>>>>>> parent of 48cd49b5 (Deleted package json and App.js)
   }
 }
