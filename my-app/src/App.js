@@ -14,28 +14,28 @@ import CFFForm from "./User/Components/CFFForm";
 
 function App() {
   return (
-    // <Router>
-    // <MainNavigation/>
-    // <main>
-    //   <Switch>
-    //     <Route path="/" exact>
-    //       <Users />
-    //     </Route>
-    //     <Route path="/orders">
-    //       <Orders />
-    //     </Route>
-    //     <Redirect to="/" />
-    //   </Switch>
-    //   </main>
-    // </Router>
-
     <Router>
-      <Switch>
-        <Route path="/">
-          <CFFForm />
-        </Route>
-      </Switch>
+      <MainNavigation />
+      <main>
+        <Switch>
+          <Route path="/" exact>
+            <Users />
+          </Route>
+          <Route path="/orders">
+            <Orders />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </main>
     </Router>
+
+    // <Router>
+    //   <Switch>
+    //     <Route path="/">
+    //       <CFFForm />
+    //     </Route>
+    //   </Switch>
+    // </Router>
   );
 }
 
