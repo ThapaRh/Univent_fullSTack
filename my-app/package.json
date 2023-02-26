@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
@@ -20,6 +21,8 @@
     "react-router-dom": "5.3.4",
     "react-scripts": "5.0.1",
 =======
+=======
+>>>>>>> parent of 6e1118ae (package removed)
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.9",
@@ -38,6 +41,9 @@
     "react-scripts": "5.0.1",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
+<<<<<<< HEAD
+>>>>>>> parent of 6e1118ae (package removed)
+=======
 >>>>>>> parent of 6e1118ae (package removed)
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
