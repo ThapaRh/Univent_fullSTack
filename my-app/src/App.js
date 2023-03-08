@@ -12,6 +12,7 @@ import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CFFForm from "./User/Components/CFFForm";
 import HomePage from "../src/User/Pages/HomePage";
+import AllUserTables from "./Table/Pages/AllUserTables";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         <Switch>
           <Route path="/" exact>
             <HomePage />
+          </Route>
+          <Route path="/usersTable" exact>
+            <AllUserTables></AllUserTables>
           </Route>
           <Route path="/orders">
             <Orders />

@@ -16,7 +16,7 @@ import "../TableOverall.css"
 
 function AllUserTables(){
 
-    const [userData,setUserData] = useState([{Name:"name", Phone:"phone",OrderId:"1"},{Name:"name", Phone:"phone",OrderId:"2"},{Name:"name", Phone:"phone",OrderId:"3"}]);
+    const [userData,setUserData] = useState([{OrderId:"1",OrderDate:"Date", CustomerNote:"In memory of",FirstName:"Name",LastName:"SurName",Address1Billing:"Billing Address",CityBilling:"City",StateBilling:"State",ZipBilling:"76012",Email:"1@gmail",Phone:"817",AddressShipping:"1",CityShipping:"1",StateShipping:"1",StateCodeShipping:"1",ZipShipping:"1",Name:"Arlington, TX: Dedicate a flag & pick up your flag",Quantity:"1",TotalItems:"1",DedicatedFrom:"1",DedicatedTo:" Flag #1 - Dedicated to In Memory of Charles (Chuck) C. ThomasUS Army, Korean Conflict"},{OrderId:2,OrderDate:"Date", CustomerNote:"In memory of",FirstName:"Name",LastName:"SurName",Address1Billing:"Billing Address",CityBilling:"City",StateBilling:"State",ZipBilling:"76012",Email:"1@gmail",Phone:"817",AddressShipping:"1",CityShipping:"1",StateShipping:"1",StateCodeShipping:"1",ZipShipping:"1",Name:"Arlington, TX: Dedicate a flag & pick up your flag",Quantity:"1",TotalItems:"1",DedicatedFrom:"1",DedicatedTo:" Flag #1 - Dedicated to In Memory of Charles (Chuck) C. ThomasUS Army, Korean Conflict"}]);
     const [deleteId,setDeleteId]=useState();
     const [updateData,setUpdateData]=useState();
     const DeleteTableData = (id)=>()=>{
@@ -30,9 +30,26 @@ function AllUserTables(){
 
 
     const columns = [
-        { field: "Name", headerName: "Name", width: 200, editable:true },
-        { field: "Phone", headerName: "Contact", width: 200,editable:true },
-        { field: "OrderId", headerName: "OrderId", width: 200,editable:true },
+        { field: "OrderDate", headerName: "Date", width: 200, editable: true },
+        { field: "CustomerNote", headerName: "In memory of", width: 200, editable: true },
+        { field: "FirstName", headerName: "Name", width: 200, editable: true },
+        { field: "LastName", headerName: "SurName", width: 200, editable: true },
+        { field: "Address1Billing", headerName: "Billing Address", width: 200, editable: true },
+        { field: "CityBilling", headerName: "City", width: 200, editable: true },
+        { field: "StateBilling", headerName: "State", width: 200, editable: true },
+        { field: "ZipBilling", headerName: "Zip", width: 200, editable: true },
+        { field: "Email", headerName: "Email", width: 200, editable: true },
+        { field: "Phone", headerName: "Phone", width: 200, editable: true },
+        { field: "AddressShipping", headerName: "Shipping Address", width: 200, editable: true },
+        { field: "CityShipping", headerName: "Shipping City", width: 200, editable: true },
+        { field: "StateShipping", headerName: "Shipping State", width: 200, editable: true },
+        { field: "StateCodeShipping", headerName: "Shipping State Code", width: 200, editable: true },
+        { field: "ZipShipping", headerName: "Shipping Zip", width: 200, editable: true },
+        { field: "Name", headerName: "Flag Name", width: 200, editable: true },
+        { field: "Quantity", headerName: "Quantity", width: 200, editable: true },
+        { field: "TotalItems", headerName: "Total Items", width: 200, editable: true },
+        { field: "DedicatedFrom", headerName: "Dedicated From", width: 200, editable: true },
+        { field: "DedicatedTo", headerName: "Dedicated To", width: 200, editable: true },      
         {field:"Delete",headerName:"Delete",width:200,editable:true,renderCell:(params)=>
       <Button variant="outlined" color="error" size="small" onClick={DeleteTableData(params.row.OrderId)}>
       Delete
