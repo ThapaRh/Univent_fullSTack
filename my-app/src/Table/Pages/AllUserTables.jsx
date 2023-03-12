@@ -20,16 +20,37 @@ function AllUserTables(){
     const [deleteId,setDeleteId]=useState();
     const [updateData,setUpdateData]=useState();
     const DeleteTableData = (id)=>()=>{
-      console.log(id)
+      console.log(id);
       setDeleteId(id);//make fetch call to delete from backend
       setUserData((prevUserData)=>
       prevUserData.filter(
         (user)=>user.OrderId!==id))
     }
 
+    //handle the table data update
+    const handleCellEdit = (params) => {
+        const {field,id,value} = params
+        console.log(params);
+
+        setUpdateData([field,id,value]);//make fetch call to do the update
+    //   fetch(`api/updateUserData?id=${id}&field=${field}&value=${value}`)
+    // .then((response) => response.json())
+    // .then((data) => console.log(data))
+    // .catch((error) => console.log(error));
+        
+      setUserData((prevUserData) =>
+      prevUserData.map((user) =>
+        user.OrderId === id ? { ...user, [field]: value } : user
+      )
+    );
+    console.log(userData);
+
+    }
+
 
 
     const columns = [
+        { field: "OrderID", headerName: "OrderId", width: 200, editable: false},
         { field: "OrderDate", headerName: "Date", width: 200, editable: true },
         { field: "CustomerNote", headerName: "In memory of", width: 200, editable: true },
         { field: "FirstName", headerName: "Name", width: 200, editable: true },
@@ -66,6 +87,7 @@ function AllUserTables(){
           columns={columns}
           pageSize={7}
           rowsPerPageOptions={[7]}
+          onCellEditCommit={handleCellEdit}
         /> }
       </div>
     )
