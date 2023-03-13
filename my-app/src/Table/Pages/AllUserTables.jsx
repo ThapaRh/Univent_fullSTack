@@ -19,6 +19,15 @@ function AllUserTables(){
     const [userData,setUserData] = useState([{OrderId:"1",OrderDate:"Date", CustomerNote:"In memory of",FirstName:"Name",LastName:"SurName",Address1Billing:"Billing Address",CityBilling:"City",StateBilling:"State",ZipBilling:"76012",Email:"1@gmail",Phone:"817",AddressShipping:"1",CityShipping:"1",StateShipping:"1",StateCodeShipping:"1",ZipShipping:"1",Name:"Arlington, TX: Dedicate a flag & pick up your flag",Quantity:"1",TotalItems:"1",DedicatedFrom:"1",DedicatedTo:" Flag #1 - Dedicated to In Memory of Charles (Chuck) C. ThomasUS Army, Korean Conflict"},{OrderId:2,OrderDate:"Date", CustomerNote:"In memory of",FirstName:"Name",LastName:"SurName",Address1Billing:"Billing Address",CityBilling:"City",StateBilling:"State",ZipBilling:"76012",Email:"1@gmail",Phone:"817",AddressShipping:"1",CityShipping:"1",StateShipping:"1",StateCodeShipping:"1",ZipShipping:"1",Name:"Arlington, TX: Dedicate a flag & pick up your flag",Quantity:"1",TotalItems:"1",DedicatedFrom:"1",DedicatedTo:" Flag #1 - Dedicated to In Memory of Charles (Chuck) C. ThomasUS Army, Korean Conflict"}]);
     const [deleteId,setDeleteId]=useState();
     const [updateData,setUpdateData]=useState();
+    // const [displayedData,setDisplayedData]=useState();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (event) => {
+      setSearchQuery(event.target.value);
+      console.log(event.target.value)
+    };
+
+
     const DeleteTableData = (id)=>()=>{
       console.log(id);
       setDeleteId(id);//make fetch call to delete from backend
@@ -44,13 +53,36 @@ function AllUserTables(){
       )
     );
     console.log(userData);
-
     }
+
+    //filter functionalities in the table
+    const filteredRows = userData.filter(
+      (row) =>
+      row.Address1Billing.toLowerCase().includes(searchQuery.toLowerCase()) || row.CustomerNote.toLowerCase().includes(searchQuery.toLowerCase()) || row.OrderId.toString().includes(searchQuery.toString())
+      || row.OrderDate.toString().includes(searchQuery.toString())
+      || row.ZipBilling.toString().includes(searchQuery.toString())
+      ||row.StateCodeShipping.toString().includes(searchQuery.toString())
+      ||row.ZipShipping.toString().includes(searchQuery.toString())
+      ||row.Quantity.toString().includes(searchQuery.toString())
+      ||row.TotalItems.toString().includes(searchQuery.toString())
+      ||row.Phone.toString().includes(searchQuery.toString())
+      || row.FirstName.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.LastName.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.CityBilling.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.StateBilling.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.Email.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.AddressShipping.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.CityShipping.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.StateShipping.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.Name.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.DedicatedFrom.toLowerCase().includes(searchQuery.toLowerCase())
+      ||row.DedicatedTo.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
 
 
     const columns = [
-        { field: "OrderID", headerName: "OrderId", width: 200, editable: false},
+        { field: "OrderId", headerName: "OrderId", width: 200, editable: false},
         { field: "OrderDate", headerName: "Date", width: 200, editable: true },
         { field: "CustomerNote", headerName: "In memory of", width: 200, editable: true },
         { field: "FirstName", headerName: "Name", width: 200, editable: true },
@@ -80,9 +112,24 @@ function AllUserTables(){
 
     return (
     // 
-    <div style={{ height: "50vh", width: "100%", marginTop: "2rem" }}>
+    <div style={{ height: "50vh", width: "100%", marginLeft:"10px",marginTop:"-70px"}}>
+        <div style={{marginBottom:"10px"}}>
+            <h2>Search</h2>
+            <input 
+              type="text" 
+              onChange={handleSearch}
+              style={{
+                padding: '10px',
+                borderRadius: '5px',
+                border: '1px solid #ccc',
+                boxShadow: 'inset 0 1px 3px rgba(0,0,0,.1)',
+                fontSize: '16px',
+                width: '10'
+              }}
+            />
+          </div>
         {<DataGrid
-          rows={userData}
+          rows={filteredRows}
           getRowId={(row) => row.OrderId}
           columns={columns}
           pageSize={7}
