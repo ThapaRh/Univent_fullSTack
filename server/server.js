@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 // importing routes to the server
-const cffRoutes = require("./routes/router");
+const cffRoutes = require("./routes/cff-routes");
+const userRoutes = require("./routes/users-routes");
 
 // switching off strictQuery for the future
 mongoose.set("strictQuery", false);
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/cff", cffRoutes);
+app.use("/api/users", userRoutes);
 
 // connecting to mongoDB
 mongoose
