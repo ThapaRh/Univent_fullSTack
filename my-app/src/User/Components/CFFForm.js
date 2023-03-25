@@ -1,11 +1,18 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import "./CFFForm.css";
 import Button from "@mui/material/Button";
 import * as XLSX from "xlsx";
-// import * as XLSX from "xlsx";
+import axios from "axios";
+import ReactModal from "react-modal";
+import React from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const CFFForm = () => {
   const [FirstName, setFirstName] = useState("");
@@ -75,6 +82,8 @@ const CFFForm = () => {
       alert(response.error);
     }
   };
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -194,4 +203,73 @@ const CFFForm = () => {
   );
 };
 
-export default CFFForm;
+export default function FormDialog() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Add Order
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Subscribe</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To add a form, please fill out the window with all appropriate
+            information.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Customer Name"
+            type="custName"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="In Honor Of"
+            type="Honoree"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="PhoneNumber"
+            label="Phone Number"
+            type="Number"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Add Order</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+//export default CFFForm;
