@@ -11,7 +11,6 @@ import Orders from "./Orders/Pages/Orders";
 import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CFFForm from "./User/Components/CFFForm";
-import Home from "./User/Login/Home";
 import Login from "./User/Login/Login";
 import Signup from "./User/Login/Signup";
 function App() {
@@ -38,7 +37,6 @@ function App() {
           {/* <CFFForm /> */}
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/home" element={<Home />} />
         </Route>
       </Routes>
       {/* </Switch> */}
