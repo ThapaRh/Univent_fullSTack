@@ -25,19 +25,32 @@ function AllUserTables(){
     const [updateData,setUpdateData]=useState();
     // const [displayedData,setDisplayedData]=useState();
     const [searchQuery, setSearchQuery] = useState('');
+    const [order, setOrder] = useState('');
 
     const handleSearch = (event) => {
       setSearchQuery(event.target.value);
       console.log(event.target.value)
     };
 
+    const handleChange = (event) => {
+      setOrder(event.target.value);
+    };
 
-    const DeleteTableData = (id)=>()=>{
+    const DeleteTableData = (id)=> async ()=>{
       console.log(id);
-      setDeleteId(id);//make fetch call to delete from backend
-      setUserData((prevUserData)=>
-      prevUserData.filter(
-        (user)=>user.OrderId!==id))
+      setDeleteId(id);//make fetch call to delete from backend\
+      try{
+      const response = await fetch(`http://localhost:8000/api/cff/${deleteId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }); } catch(error) {
+        console.log(error);
+      }
+      setUserData((userData)=>
+      userData.filter(
+        (user)=>user._id!==id))
     }
 
     //handle the table data update
@@ -138,7 +151,7 @@ function AllUserTables(){
           <Button variant="contained" size="small">
             Print
           </Button>
-          <Button variant="outlined" color="error" size="small" onClick={DeleteTableData(params.row.OrderId)}>
+          <Button variant="outlined" color="error" size="small" onClick={DeleteTableData(params.row._id)}>
             Delete
           </Button>
           <Button variant="outlined" color="success" size="small" >
@@ -152,17 +165,17 @@ function AllUserTables(){
     return (
     // 
     <div>
-      <div>
+      <div className="Nav-Bar">
       <NavBar />
       </div>
         <div style={{
           display : "flex",
           flexDirection: "row",
-          justifyContent: "left",
+          flexWrap: "wrap",
+          justifyContent: "right",
           marginTop: "8rem",
-          marginLeft: "1rem",
-          gap: "5rem"
-
+          gap: "5rem",
+          marginRight: "2rem"
         }}>
             {/* <h3>Search</h3> */}
             <TextField 
@@ -175,9 +188,28 @@ function AllUserTables(){
                 height: '2rem'
               }}
             />
-
+            <Box sx={{ minWidth: 120}}>
+            <FormControl>
+            <InputLabel id="demo-simple-select-label">Order Status</InputLabel>
+            <Select
+            value={order}
+            onChange={handleChange}
+            style={{width: "10rem"}}
+            label="Order"
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            >
+              <MenuItem value={0}>Processing</MenuItem>
+              <MenuItem value={1}>Delivered</MenuItem>
+            </Select>
+            </FormControl>
+            </Box>
             <FormDialog />
             <CFFForm />
+
+            <Button variant="contained" style={{ height:"3.2rem" }}>
+              Export CSV
+            </Button>
           </div>
           <div style={{ marginTop: "3rem", height: "100vh", width: '100%' }}>
         {<DataGrid

@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Home", "Orders", "About"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function NavBar() {
@@ -36,7 +36,7 @@ function NavBar() {
   };
 
   return (
-    <div style={{ marginTop: "-70px" }}>
+    <div style={{ marginTop: "0px" }}>
       <AppBar
         position="static"
         style={{ backgroundColor: "#174C7B", opacity: "0.8" }}
