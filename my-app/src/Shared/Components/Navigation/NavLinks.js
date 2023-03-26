@@ -12,6 +12,9 @@ function NavLinks(props){
         <li>
             <NavLink to ="/orders">| My Orders |</NavLink>
         </li>
+        <li>
+            <NavLink to = "/usersTable">|All User Table |</NavLink>
+        </li>
 
         </ul>
     );
