@@ -142,6 +142,18 @@ const getCFF = async (req, res, next) => {
   res.status(200).json({ cff: cff.toObject({ getters: true }) });
 };
 
+// GETTING ALL CFF
+const getAllCFF = async (req, res, next) => {
+  let allCFF;
+  try {
+    allCFF = await CFF.find();
+    console.log(allCFF);
+    res.status(200).json({ allCFF });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 // ADDING A CFF
 const createCFF = async (req, res) => {
   const cff = new CFF({
@@ -260,4 +272,5 @@ module.exports = {
   deleteCFF,
   updateCFF,
   handleFileUpload,
+  getAllCFF,
 };

@@ -15,6 +15,8 @@ import Home from "./User/Login/Home";
 import Login from "./User/Login/Login";
 import Signup from "./User/Login/Signup";
 import Auth from "./User/Pages/Auth";
+import AllUserTables from "./Table/Pages/AllUserTables";
+import TestTable from "./Table/Pages/TestTable";
 import { AuthContext } from "./context/auth-context";
 
 const App = () => {
@@ -26,12 +28,16 @@ const App = () => {
     routes = (
       <React.Fragment>
         <Route path="/" element={<CFFForm />} />
+        <Route path="/orders" element={<AllUserTables />} />
+        <Route path="/test" element={<TestTable />} />
       </React.Fragment>
     );
   } else {
     routes = (
       <React.Fragment>
         <Route path="/" element={<Auth />} />
+        <Route path="/orders" element={<AllUserTables />} />
+        <Route path="/test" element={<TestTable />} />
       </React.Fragment>
     );
   }

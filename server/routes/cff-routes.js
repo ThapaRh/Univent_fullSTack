@@ -20,12 +20,15 @@ const {
   deleteCFF,
   updateCFF,
   handleFileUpload,
+  getAllCFF,
 } = require("../controllers/CffControllers");
 
 const router = express.Router();
 
 // route to get a CFF
 router.get("/:id", getCFF);
+
+router.get("/", getAllCFF);
 
 router.use(auth);
 
