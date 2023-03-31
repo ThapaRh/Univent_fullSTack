@@ -13,8 +13,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useAuth } from "../../hooks/auth-hook";
 
-const CFFForm = () => {
+const CFFForm = (props) => {
+  const { token, login, logout, userId } = useAuth();
   const [jsonExcel, setJsonExcel] = useState("");
   const [open, setOpen] = React.useState(false);
 
@@ -68,6 +70,7 @@ const CFFForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         data,
@@ -77,7 +80,8 @@ const CFFForm = () => {
     const json = await response.json();
 
     if (json) {
-      alert("File Successfully uploaded!");
+      props.onUpload(data);
+      setOpen(false);
     } else {
       alert(response.error);
     }
