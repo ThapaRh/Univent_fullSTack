@@ -1,128 +1,7 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate, Link } from "react-router-dom";
-// import axios from "axios";
-
-// function Login() {
-
-//     const history = useNavigate();
-
-//     const [email,setEmail]= useState('')
-//     const [password,setPassword]=useState('')
-
-//     async function submit(e){
-//         e.preventDefault();
-
-//         try{
-
-//             await axios.post("http://localhost:8000/",{
-//                 email,password
-//             })
-//             .then(res=>{
-//                 if(res.data="Exists!"){
-//                     history("/home",{state:{id:email}})
-
-//                 }
-//                 else if(res.data="Does not Exists!"){
-//                     alert("User Not Signed Up!")
-//                 }
-//             })
-//             .catch(e=>{
-//                 alert("Wrong Details!")
-//                 console.log(e);
-//             })
-
-//         }
-//         catch(e){
-//             console.log(e);
-
-//         }
-//     }
-
-//     return (
-//         <div className="login">
-//             <h1>Login</h1>
-
-//             <form action="POST">
-//                 <input type="email" onChange={(e) => { setEmail(e.target.value) }} placeholder="Email"></input>
-
-//                 <input type="password" onChange={(e) => { setPassword(e.target.value) }} placeholder="Password"></input>
-
-//                 <input type="submit" onClick={submit}></input>
-//             </form>
-
-//             <br />
-
-
-//             <br />
-
-//             <Link to="/signup">Signup Page</Link>
-
-
-//         </div>
-//     )
-// }
-
-// export default Login
-
-
-
-// import React, { Component } from 'react'
-
-// export default class Login extends Component {
-//   render() {
-//     return (
-//       <form>
-//         <h3>Log In</h3>
-
-//         <div className="mb-3">
-//           <label>Email address</label>
-//           <input
-//             type="email"
-//             className="form-control"
-//             placeholder="Enter email"
-//           />
-//         </div>
-
-//         <div className="mb-3">
-//           <label>Password</label>
-//           <input
-//             type="password"
-//             className="form-control"
-//             placeholder="Enter password"
-//           />
-//         </div>
-
-//         <div className="mb-3">
-//           <div className="custom-control custom-checkbox">
-//             <input
-//               type="checkbox"
-//               className="custom-control-input"
-//               id="customCheck1"
-//             />
-//             <label className="custom-control-label" htmlFor="customCheck1">
-//               Remember me
-//             </label>
-//           </div>
-//         </div>
-
-//         <p className="forgot-password text-right">
-//           New User <br></br><a href="/signup">sign up?</a>
-//         </p>
-
-//         <div className="d-grid">
-//           <button type="submit" className="btn btn-primary">
-//             Submit
-//           </button>
-//         </div>
-
-//       </form>
-//     )
-//   }
-// }
 
 import * as React from 'react';
 import logo from './Arlington.jpeg';
-import './logo.css';
+import './logo.css'
 import Avatar from '@mui/material/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@mui/material/Button';
@@ -164,7 +43,7 @@ export default function SignIn() {
                         alignItems: 'center',
                     }}
                 >
-                    <img src={logo} alt="Logo" className="logo" />
+                    <img src={logo} alt="Logo" className="logo"/>
                      <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                      </Avatar>
