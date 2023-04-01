@@ -17,6 +17,7 @@ import NavBar from "../../User/Components/NavBar";
 import "../TableOverall.css"
 import { AuthContext } from "../../context/auth-context";
 import { useAuth } from "../../hooks/auth-hook"
+import PrintCards from "../../User/Components/PrintCards"
 
 
 function AllUserTables(){
@@ -28,6 +29,7 @@ function AllUserTables(){
     const [searchQuery, setSearchQuery] = useState('');
     const [order, setOrder] = useState('');
     const auth = useContext(AuthContext);
+    const [selectedRows, setselectedRows] = React.useState([]);
 
     const handleSearch = (event) => {
       setSearchQuery(event.target.value);
@@ -36,6 +38,11 @@ function AllUserTables(){
     const handleChange = (event) => {
       setOrder(event.target.value);
     };
+
+    // useEffect(() => {
+    //   console.log('Selection model has changed!', selectedRows);
+    // }, [selectedRows]);
+
 
     const DeleteTableData = (id) => async () => {
       setDeleteId(id);
@@ -267,7 +274,7 @@ function AllUserTables(){
             </Box>
             <FormDialog />
             <CFFForm onUpload={handleFileUpload}/>
-
+            <PrintCards tabledata= {selectedRows}/>
             <Button variant="contained" style={{ height:"3.2rem" }}>
               Export CSV
             </Button>
@@ -281,6 +288,13 @@ function AllUserTables(){
           columns={columns}
           rowsPerPageOptions={[7]}
           onCellEditCommit={handleCellEdit}
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = filteredRows.filter((row) =>
+            selectedIDs.has(row._id),
+            );
+          setselectedRows(selectedRows);
+          }}
         /> }
         </div>
       </div>
