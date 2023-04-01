@@ -147,7 +147,6 @@ const getAllCFF = async (req, res, next) => {
   let allCFF;
   try {
     allCFF = await CFF.find();
-    console.log(allCFF);
     res.status(200).json({ allCFF });
   } catch (err) {
     return next(err);
@@ -167,7 +166,7 @@ const createCFF = async (req, res) => {
     AddressBilling: req.body.AddressBilling,
     City: req.body.City,
     State: req.body.State,
-    Zipcode: req.body.ZipCode,
+    ZipCode: req.body.ZipCode,
     Email: req.body.Email,
     Phone: req.body.Phone,
     ShippingAddress: req.body.ShippingAddress,
@@ -192,32 +191,6 @@ const createCFF = async (req, res) => {
 
 // updating a CFF info
 const updateCFF = async (req, res, next) => {
-  const newCFF = new CFF({
-    OrderNumber: req.body.OrderNumber,
-    OrderStatus: req.body.OrderStatus,
-    OrderDate: req.body.OrderDate,
-    CustomerNote: req.body.CustomerNote,
-    OrderNote: req.body.OrderNote,
-    FirstName: req.body.FirstName,
-    LastName: req.body.LastName,
-    AddressBilling: req.body.AddressBilling,
-    City: req.body.City,
-    State: req.body.State,
-    Zipcode: req.body.ZipCode,
-    Email: req.body.Email,
-    Phone: req.body.Phone,
-    ShippingAddress: req.body.ShippingAddress,
-    ShippingState: req.body.ShippingState,
-    ShippingZip: req.body.ShippingZip,
-    Item: req.body.Item,
-    SKU: req.body.SKU,
-    ServiceType: req.body.ServiceType,
-    Quantity: req.body.Quantity,
-    TotalItems: req.body.TotalItems,
-    DedicatedFrom: req.body.DedicatedFrom,
-    DedicatedTo: req.body.DedicatedTo,
-  });
-
   const id = req.params.id;
 
   let cff;
@@ -227,16 +200,30 @@ const updateCFF = async (req, res, next) => {
     const error = err;
     return next(error);
   }
-
-  // cff.FirstName = FirstName;
-  // cff.LastName = LastName;
-  // cff.AddressBilling = AddressBilling;
-  // cff.City = City;
-  // cff.State = State;
-  // cff.Client_name = Client_name;
-  // cff.Date = Date;
-  // cff.Gender = Gender;
-  cff = newCFF;
+  (cff.OrderNumber = req.body.OrderNumber),
+    (cff.OrderStatus = req.body.OrderStatus),
+    (cff.OrderDate = req.body.OrderDate),
+    (cff.CustomerNote = req.body.CustomerNote),
+    (cff.OrderNote = req.body.OrderNote),
+    (cff.FirstName = req.body.FirstName),
+    (cff.LastName = req.body.LastName),
+    (cff.AddressBilling = req.body.AddressBilling),
+    (cff.City = req.body.City),
+    (cff.State = req.body.State),
+    (cff.ZipCode = req.body.ZipCode),
+    (cff.Email = req.body.Email),
+    (cff.Phone = req.body.Phone),
+    (cff.ShippingAddress = req.body.ShippingAddress),
+    (cff.ShippingState = req.body.ShippingState),
+    (cff.ShippingZip = req.body.ShippingZip),
+    (cff.Item = req.body.Item),
+    (cff.SKU = req.body.SKU),
+    (cff.ServiceType = req.body.ServiceType),
+    (cff.Quantity = req.body.Quantity),
+    (cff.TotalItems = req.body.TotalItems),
+    (cff.DedicatedFrom = req.body.DedicatedFrom),
+    (cff.DedicatedTo = req.body.DedicatedTo),
+    console.log(cff);
 
   try {
     await cff.save();
@@ -247,23 +234,22 @@ const updateCFF = async (req, res, next) => {
   res.status(200).json({ cff: cff.toObject({ getters: true }) });
 };
 
-// deleting a cff using id
+// Deleting a CFF
 const deleteCFF = async (req, res, next) => {
   const id = req.params.id;
+  console.log(id);
   let cff;
   try {
     cff = await CFF.findById(id);
-  } catch (err) {
-    return next(err);
-  }
-
-  try {
+    if (!cff) {
+      return res.status(404).json({ message: "Item not found" });
+    }
     await cff.remove();
   } catch (err) {
     return next(err);
   }
 
-  res.status(200).json({ message: "Deleted Cff." });
+  res.status(204).send();
 };
 
 module.exports = {

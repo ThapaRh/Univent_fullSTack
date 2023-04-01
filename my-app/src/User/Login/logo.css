@@ -1,0 +1,9 @@
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px; /* set the width to your desired size */
+    height: auto; /* keep the aspect ratio */
+    margin: 10px; /* add some margin */
+  }
+  

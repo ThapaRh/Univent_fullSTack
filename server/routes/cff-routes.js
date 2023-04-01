@@ -42,6 +42,6 @@ router.post("/add", createCFF);
 router.delete("/:id", deleteCFF);
 
 //route to update CFF info
-router.patch("/:id", updateCFF);
+router.post("/:id", updateCFF);
 
 module.exports = router;

@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "react-bootstrap": "^2.7.2",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.11.14",
     "react-scripts": "^5.0.1"
   }
 }

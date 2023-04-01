@@ -1,6 +1,6 @@
 // import React from "react";
 // import TableData from "../Containers/TableData";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,68 +14,129 @@ import TextField from "@mui/material/TextField";
 import FormDialog from "../../User/Components/FormDialog";
 import CFFForm from "../../User/Components/CFFForm";
 import NavBar from "../../User/Components/NavBar";
-
 import "../TableOverall.css"
+import { AuthContext } from "../../context/auth-context";
+import { useAuth } from "../../hooks/auth-hook"
 
 
 function AllUserTables(){
-
+  const { token, login, logout, userId } = useAuth();
     const [userData,setUserData] = useState([]);
     const [deleteId,setDeleteId]=useState();
     const [updateData,setUpdateData]=useState();
     // const [displayedData,setDisplayedData]=useState();
     const [searchQuery, setSearchQuery] = useState('');
     const [order, setOrder] = useState('');
+    const auth = useContext(AuthContext);
 
     const handleSearch = (event) => {
       setSearchQuery(event.target.value);
-      console.log(event.target.value)
     };
 
     const handleChange = (event) => {
       setOrder(event.target.value);
     };
 
-    const DeleteTableData = (id)=> async ()=>{
-      console.log(id);
-      setDeleteId(id);//make fetch call to delete from backend\
-      try{
-      const response = await fetch(`http://localhost:8000/api/cff/${deleteId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+    const DeleteTableData = (id) => async () => {
+      setDeleteId(id);
+      try {
+        const response = await fetch(`http://localhost:8000/api/cff/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: 'Bearer ' + token
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to delete item");
         }
-      }); } catch(error) {
+      } catch (error) {
         console.log(error);
+        return;
       }
-      setUserData((userData)=>
-      userData.filter(
-        (user)=>user._id!==id))
-    }
+    
+      setUserData((userData) =>
+        userData.filter((user) => user._id !== id)
+      );
+    };
+
 
     //handle the table data update
-    const handleCellEdit = (params) => {
+    const handleCellEdit = async (params) => {
         const {field,id,value} = params
-        console.log(params);
+        setUserData(userData)
+        setUpdateData([field,id,value]);
+        setUserData((prevUserData) =>
+        prevUserData.map((user) =>
+          user._id === id ? { ...user, [field]: value } : user
+        )
+      );
 
-        setUpdateData([field,id,value]);//make fetch call to do the update
-    //   fetch(`api/updateUserData?id=${id}&field=${field}&value=${value}`)
-    // .then((response) => response.json())
-    // .then((data) => console.log(data))
-    // .catch((error) => console.log(error));
-        
-      setUserData((prevUserData) =>
-      prevUserData.map((user) =>
-        user.OrderId === id ? { ...user, [field]: value } : user
-      )
-    );
-    console.log(userData);
+      const updatedData = userData.find(item => item._id == id)
+      updatedData[field] = value
+      console.log(updatedData)
+
+      try {
+        const response = await fetch(`http://localhost:8000/api/cff/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            OrderNumber: updatedData.OrderNumber,
+            OrderStatus: updatedData.OrderStatus,
+            OrderDate: updatedData.OrderDate,
+            CustomerNote: updatedData.CustomerNote,
+            OrderNote: updatedData.OrderNote,
+            FirstName: updatedData.FirstName,
+            LastName: updatedData.LastName,
+            AddressBilling: updatedData.AddressBilling,
+            City: updatedData.City,
+            State: updatedData.State,
+            ZipCode: updatedData.ZipCode,
+            Email: updatedData.Email,
+            Phone: updatedData.Phone,
+            ShippingAddress: updatedData.ShippingAddress,
+            ShippingState: updatedData.ShippingState,
+            ShippingZip: updatedData.ShippingZip,
+            Item: updatedData.Item,
+            SKU: updatedData.SKU,
+            ServiceType: updatedData.ServiceType,
+            Quantity: updatedData.Quantity,
+            TotalItems: updatedData.TotalItems,
+            DedicatedFrom: updatedData.DedicatedFrom,
+            DedicatedTo: updatedData.DedicatedTo,
+          }),
+        });
+      
+        if (!response.ok) {
+          throw new Error('Failed to update item');
+        }
+      } catch (error) {
+        console.log(error);
+        return;
+      }  
     }
+
+    // handling file upload
+    const handleFileUpload = (data) =>{
+      const dataToUpdate = userData
+      const combinedData = data.concat(dataToUpdate.filter(
+        (item2) => !data.some((item1) => item1.OrderNumber === item2.OrderNumber)
+      ));
+      setUserData(combinedData);
+      console.log(userData);
+    }
+
+
 
     //filter functionalities in the table
     const filteredRows = userData.filter(
       (row) =>
-      row.Address1Billing?.toLowerCase().includes(searchQuery?.toLowerCase()) || row.CustomerNote?.toLowerCase().includes(searchQuery?.toLowerCase()) || row.OrderNumber?.toString().includes(searchQuery?.toString())
+      row.Address1Billing?.toLowerCase().includes(searchQuery?.toLowerCase()) 
+      || row.CustomerNote?.toLowerCase().includes(searchQuery?.toLowerCase()) 
+      || row.OrderNumber?.toString().includes(searchQuery?.toString())
       || row.OrderDate?.toString().includes(searchQuery?.toString())
       || row.ZipBilling?.toString().includes(searchQuery?.toString())
       ||row.StateCodeShipping?.toString().includes(searchQuery?.toString())
@@ -87,6 +148,7 @@ function AllUserTables(){
       ||row.LastName?.toLowerCase().includes(searchQuery?.toLowerCase())
       ||row.City?.toLowerCase().includes(searchQuery?.toLowerCase())
       ||row.StateBilling?.toLowerCase().includes(searchQuery?.toLowerCase())
+      ||row.AddressBilling?.toLowerCase().includes(searchQuery?.toLowerCase())
       ||row.Email?.toLowerCase().includes(searchQuery?.toLowerCase())
       ||row.AddressShipping?.toLowerCase().includes(searchQuery?.toLowerCase())
       ||row.CityShipping?.toLowerCase().includes(searchQuery?.toLowerCase())
@@ -105,7 +167,6 @@ function AllUserTables(){
         try {
           const response = await fetch('http://localhost:8000/api/cff/');
           const json = await response.json();
-          console.log(json);
           setUserData(json.allCFF);
         } catch (error) {
           console.log('Error fetching data', error);
@@ -205,7 +266,7 @@ function AllUserTables(){
             </FormControl>
             </Box>
             <FormDialog />
-            <CFFForm />
+            <CFFForm onUpload={handleFileUpload}/>
 
             <Button variant="contained" style={{ height:"3.2rem" }}>
               Export CSV
