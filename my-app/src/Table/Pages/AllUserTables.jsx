@@ -1,5 +1,3 @@
-// import React from "react";
-// import TableData from "../Containers/TableData";
 import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,11 +20,11 @@ import { useAuth } from "../../hooks/auth-hook"
 function AllUserTables(){
   const { token, login, logout, userId } = useAuth();
     const [userData,setUserData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [deleteId,setDeleteId]=useState();
     const [updateData,setUpdateData]=useState();
-    // const [displayedData,setDisplayedData]=useState();
     const [searchQuery, setSearchQuery] = useState('');
-    const [order, setOrder] = useState('');
+    const [order, setOrder] = useState("all");
     const auth = useContext(AuthContext);
 
     const handleSearch = (event) => {
@@ -119,26 +117,42 @@ function AllUserTables(){
       }  
     }
 
-    // handling file upload
-    const handleFileUpload = (data) =>{
+    // Handling data after uploading a csv
+    const handleFileUpload = async (data) =>{
       const dataToUpdate = userData
-      const combinedData = data.concat(dataToUpdate.filter(
-        (item2) => !data.some((item1) => item1.OrderNumber === item2.OrderNumber)
-      ));
-      setUserData(combinedData);
-      console.log(userData);
+      try {
+        const response = await fetch('http://localhost:8000/api/cff/');
+        const json = await response.json();
+        setUserData(json.allCFF);
+        setFilteredData(json.allCFF);
+      } catch (error) {
+        console.log('Error fetching data', error);
+      }
+    }
+
+    // Handling adding a CFF
+    const handleAdd = async (data) =>{
+      try {
+        const response = await fetch('http://localhost:8000/api/cff/');
+        const json = await response.json();
+        setUserData(json.allCFF);
+        setFilteredData(json.allCFF);
+      } catch (error) {
+        console.log('Error fetching data', error);
+      }
     }
 
 
 
     //filter functionalities in the table
-    const filteredRows = userData.filter(
+    const filteredRows = filteredData.filter(
       (row) =>
       row.Address1Billing?.toLowerCase().includes(searchQuery?.toLowerCase()) 
       || row.CustomerNote?.toLowerCase().includes(searchQuery?.toLowerCase()) 
       || row.OrderNumber?.toString().includes(searchQuery?.toString())
       || row.OrderDate?.toString().includes(searchQuery?.toString())
       || row.ZipBilling?.toString().includes(searchQuery?.toString())
+      || row.State?.toString().includes(searchQuery?.toString())
       ||row.StateCodeShipping?.toString().includes(searchQuery?.toString())
       ||row.ZipShipping?.toString().includes(searchQuery?.toString())
       ||row.Quantity?.toString().includes(searchQuery?.toString())
@@ -168,13 +182,23 @@ function AllUserTables(){
           const response = await fetch('http://localhost:8000/api/cff/');
           const json = await response.json();
           setUserData(json.allCFF);
+          setFilteredData(json.allCFF);
         } catch (error) {
           console.log('Error fetching data', error);
         }
       };
-
       fetchData();
     },[])
+
+    // Handling the order status drop down
+    useEffect(() =>{
+      if (order !== "all") {
+        const data = userData.filter(item => item.OrderStatus === order);
+        setFilteredData(data)
+      } else{
+        setFilteredData(userData)
+      }
+    },[order])
 
 
 
@@ -260,12 +284,14 @@ function AllUserTables(){
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             >
-              <MenuItem value={0}>Processing</MenuItem>
-              <MenuItem value={1}>Delivered</MenuItem>
+              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"Processing"}>Processing</MenuItem>
+              <MenuItem value={"Returned"}>Returned</MenuItem>
+              <MenuItem value={"Shipped"}>Shipped</MenuItem>
             </Select>
             </FormControl>
             </Box>
-            <FormDialog />
+            <FormDialog onAdd={handleAdd}/>
             <CFFForm onUpload={handleFileUpload}/>
 
             <Button variant="contained" style={{ height:"3.2rem" }}>

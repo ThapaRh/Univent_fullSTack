@@ -156,36 +156,38 @@ const getAllCFF = async (req, res, next) => {
 // ADDING A CFF
 const createCFF = async (req, res) => {
   const cff = new CFF({
-    OrderNumber: req.body.OrderNumber,
-    OrderStatus: req.body.OrderStatus,
-    OrderDate: req.body.OrderDate,
-    CustomerNote: req.body.CustomerNote,
-    OrderNote: req.body.OrderNote,
-    FirstName: req.body.FirstName,
-    LastName: req.body.LastName,
-    AddressBilling: req.body.AddressBilling,
-    City: req.body.City,
-    State: req.body.State,
-    ZipCode: req.body.ZipCode,
-    Email: req.body.Email,
-    Phone: req.body.Phone,
-    ShippingAddress: req.body.ShippingAddress,
-    ShippingState: req.body.ShippingState,
-    ShippingZip: req.body.ShippingZip,
-    Item: req.body.Item,
-    SKU: req.body.SKU,
-    ServiceType: req.body.ServiceType,
-    Quantity: req.body.Quantity,
-    TotalItems: req.body.TotalItems,
-    DedicatedFrom: req.body.DedicatedFrom,
-    DedicatedTo: req.body.DedicatedTo,
+    OrderNumber: req.body.orderNumber,
+    OrderStatus: req.body.orderStatus,
+    OrderDate: req.body.orderDate,
+    CustomerNote: req.body.customerNotes,
+    OrderNote: req.body.orderNote,
+    FirstName: req.body.firstName,
+    LastName: req.body.lastName,
+    AddressBilling: req.body.billingAddress,
+    City: req.body.billingCity,
+    State: req.body.billingState,
+    ZipCode: req.body.billingZipCode,
+    Email: req.body.email,
+    Phone: req.body.phone,
+    ShippingAddress: req.body.shippingAddress,
+    ShippingCity: req.body.ShippingCity,
+    ShippingState: req.body.shippingState,
+    ShippingZip: req.body.shippingZip,
+    Item: req.body.item,
+    SKU: req.body.sku,
+    ServiceType: req.body.serviceType,
+    Quantity: req.body.quantity,
+    TotalItems: req.body.totalItems,
+    DedicatedFrom: req.body.dedicatedFrom,
+    DedicatedTo: req.body.dedicatedTo,
   });
+
   try {
     await cff.save();
   } catch (err) {
-    return next(err);
+    console.log(err);
   }
-
+  console.log(cff);
   return res.status(201).json({ cff });
 };
 
