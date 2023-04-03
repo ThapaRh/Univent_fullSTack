@@ -16,6 +16,8 @@ import "../TableOverall.css"
 import { AuthContext } from "../../context/auth-context";
 import { useAuth } from "../../hooks/auth-hook"
 import PrintCards from "../../User/Components/PrintCards"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee, faPenToSquare, faPrint, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 
 function AllUserTables(){
@@ -60,8 +62,8 @@ function AllUserTables(){
         return;
       }
     
-      setUserData((userData) =>
-        userData.filter((user) => user._id !== id)
+      setFilteredData((filteredData) =>
+        filteredData.filter((user) => user._id !== id)
       );
     };
 
@@ -233,21 +235,21 @@ function AllUserTables(){
         { field: "TotalItems", headerName: "Total Items", width: 120, editable: true },
         { field: "CustomerNote", headerName: "In memory of", width: 350, editable: true },
         { field: "DedicatedFrom", headerName: "Dedicated From", width: 400, editable: true },
-        { field: "DedicatedTo", headerName: "Dedicated To", width: 400, editable: true },      
-        {field:"Delete",headerName:"Delete",width:300,editable:true,renderCell:(params)=>
+        { field: "DedicatedTo", headerName: "Dedicated To", width: 420, editable: true },      
+        {field:"Delete",headerName:"options",width:300,editable:true,renderCell:(params)=>
         <div style={{
           display: "flex",
           flexDirection: "row",
-          gap: "1rem"
+          gap: "0px"
         }}>
-          <Button variant="contained" size="small">
-            Print
+          <Button variant="outline" size="medium">
+          <FontAwesomeIcon icon={faPrint} />
           </Button>
-          <Button variant="outlined" color="error" size="small" onClick={DeleteTableData(params.row._id)}>
-            Delete
+          <Button variant="outline" color="error" size="medium" onClick={DeleteTableData(params.row._id)}>
+          <FontAwesomeIcon icon={faTrash} />
           </Button>
-          <Button variant="outlined" color="success" size="small" >
-            Edit
+          <Button variant="outline" color="success" size="medium" >
+          <FontAwesomeIcon icon={faPenToSquare} />
           </Button>
         </div>
     }
@@ -258,28 +260,49 @@ function AllUserTables(){
     // 
     <div>
       <div className="Nav-Bar">
-      <NavBar />
+      {/* <NavBar /> */}
       </div>
+      <div style={{
+        display: "flex",
+        flexDirection: "horizontal",
+        marginTop: "6rem",
+        gap: "93.5rem"
+      }}>
+        <h2 
+          style={{
+            marginLeft: "5rem",
+          }}
+          >Orders</h2>
+        <FormDialog onAdd={handleAdd}/>
+      </div>
+
         <div style={{
           display : "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          justifyContent: "right",
-          marginTop: "8rem",
+          justifyContent: "start",
+          marginTop: "2rem",
           gap: "5rem",
-          marginRight: "2rem"
+          marginLeft: "5rem",
+          height: "10vh",
+          width: "92%",
+          boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+          alignItems: "center",
+          borderRadius: "10px",
         }}>
-            {/* <h3>Search</h3> */}
+          <div>
             <TextField 
               type="text" 
               onChange={handleSearch}
-              label="Search"
+              label="What are you looking for?"
               style={{
                 fontSize: '14px',
                 width: '40rem',
-                height: '2rem'
+                marginLeft: "20px"
               }}
             />
+            </div>
+            <div>
             <Box sx={{ minWidth: 120}}>
             <FormControl>
             <InputLabel id="demo-simple-select-label">Order Status</InputLabel>
@@ -298,14 +321,39 @@ function AllUserTables(){
             </Select>
             </FormControl>
             </Box>
-            <FormDialog onAdd={handleAdd}/>
+            </div>
+
+            <div
+            style={{
+              marginLeft: "26rem"
+            }}>
             <CFFForm onUpload={handleFileUpload}/>
+            </div>
+
+            <div>
             <PrintCards tabledata= {selectedRows}/>
-            <Button variant="contained" style={{ height:"3.2rem" }}>
+            </div>
+
+            </div>
+            
+            {/* <FormDialog onAdd={handleAdd}/> */}
+            {/* <CFFForm onUpload={handleFileUpload}/>
+            <PrintCards tabledata= {selectedRows}/> */}
+            {/* <Button variant="contained" style={{ height:"3.2rem" }}>
               Export CSV
-            </Button>
-          </div>
-          <div style={{ marginTop: "3rem", height: "100vh", width: '100%' }}>
+            </Button> */}
+         
+          <div style={{ marginTop: "0.2rem",  
+          display: "flex", 
+          justifyContent: "start",
+          width: "100%",
+          marginLeft: "5rem" 
+          }}>
+            <div style={{ marginTop: "3rem", 
+          height: "65vh", 
+          width: '92%', 
+          boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+          }}>
         {<DataGrid
           rows={filteredRows}
           density='standard'
@@ -322,6 +370,7 @@ function AllUserTables(){
           setselectedRows(selectedRows);
           }}
         /> }
+        </div>
         </div>
       </div>
     )
