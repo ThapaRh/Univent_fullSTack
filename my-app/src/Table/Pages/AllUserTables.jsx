@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from 'react-router';
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -28,6 +29,7 @@ function AllUserTables(){
     const [order, setOrder] = useState("all");
     const auth = useContext(AuthContext);
     const [selectedRows, setselectedRows] = React.useState([]);
+    const navigate = useNavigate();
 
     const handleSearch = (event) => {
       setSearchQuery(event.target.value);
@@ -240,7 +242,7 @@ function AllUserTables(){
           flexDirection: "row",
           gap: "1rem"
         }}>
-          <Button variant="contained" size="small">
+          <Button variant="contained" size="small" onClick={printSingleData(params)}>
             Print
           </Button>
           <Button variant="outlined" color="error" size="small" onClick={DeleteTableData(params.row._id)}>
@@ -252,8 +254,26 @@ function AllUserTables(){
         </div>
     }
       ];
-   
+      
+      //for print using print all
+      function printData(){
+        const dataArray = selectedRows;
+        navigate('/card', 
+        { state: {
+          dataArray
+        } });
+      }
 
+      //for the direct print from the table 
+      // function printSingleData(){
+      const printSingleData = (params) => async () => {
+        const dataArray = [params.row];
+        navigate('/card', 
+        { state: {
+          dataArray
+        } });
+      }
+    
     return (
     // 
     <div>
@@ -300,7 +320,10 @@ function AllUserTables(){
             </Box>
             <FormDialog onAdd={handleAdd}/>
             <CFFForm onUpload={handleFileUpload}/>
-            <PrintCards tabledata= {selectedRows}/>
+            {/* <PrintCards tabledata= {selectedRows}/> */}
+           <Button onClick={printData} variant="contained" style={{ height:"3.2rem" }}>
+              Print All
+            </Button>
             <Button variant="contained" style={{ height:"3.2rem" }}>
               Export CSV
             </Button>
