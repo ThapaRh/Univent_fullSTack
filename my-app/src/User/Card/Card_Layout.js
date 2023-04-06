@@ -13,11 +13,11 @@ export default function ActionAreaCard(props) {
     console.log(props.data)
   return (
     <div className="centered-card-container">
-    <Card justify="center" sx={{ maxWidth: 380 }}>
+    <Card justify="center" sx={{ maxWidth: 1000 }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="160"
+          height={300}
           image={photo}
           alt='Field of Honor'
           style={{ width: '100%', objectFit: 'cover' }}
