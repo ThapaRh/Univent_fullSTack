@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from 'react-router';
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -30,6 +31,7 @@ function AllUserTables(){
     const [order, setOrder] = useState("all");
     const auth = useContext(AuthContext);
     const [selectedRows, setselectedRows] = React.useState([]);
+    const navigate = useNavigate();
 
     const handleSearch = (event) => {
       setSearchQuery(event.target.value);
@@ -242,8 +244,11 @@ function AllUserTables(){
           flexDirection: "row",
           gap: "0px"
         }}>
-          <Button variant="outline" size="medium">
+
+          <Button variant="outline" size="medium" onClick={printSingleData(params)}>
           <FontAwesomeIcon icon={faPrint} />
+          {/* <Button variant="contained" size="small" onClick={printSingleData(params)}>
+            Print */}
           </Button>
           <Button variant="outline" color="error" size="medium" onClick={DeleteTableData(params.row._id)}>
           <FontAwesomeIcon icon={faTrash} />
@@ -254,8 +259,26 @@ function AllUserTables(){
         </div>
     }
       ];
-   
+      
+      //for print using print all
+      function printData(){
+        const dataArray = selectedRows;
+        navigate('/card', 
+        { state: {
+          dataArray
+        } });
+      }
 
+      //for the direct print from the table 
+      // function printSingleData(){
+      const printSingleData = (params) => async () => {
+        const dataArray = [params.row];
+        navigate('/card', 
+        { state: {
+          dataArray
+        } });
+      }
+    
     return (
     // 
     <div>
@@ -331,17 +354,14 @@ function AllUserTables(){
             </div>
 
             <div>
-            <PrintCards tabledata= {selectedRows}/>
+            {/* <PrintCards tabledata= {selectedRows}/> */}
+            <Button onClick={printData} variant="contained" style={{ height:"3.2rem" }}>
+              Print All
+            </Button>
             </div>
 
             </div>
             
-            {/* <FormDialog onAdd={handleAdd}/> */}
-            {/* <CFFForm onUpload={handleFileUpload}/>
-            <PrintCards tabledata= {selectedRows}/> */}
-            {/* <Button variant="contained" style={{ height:"3.2rem" }}>
-              Export CSV
-            </Button> */}
          
           <div style={{ marginTop: "0.2rem",  
           display: "flex", 
