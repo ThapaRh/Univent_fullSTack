@@ -10,13 +10,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { autocompleteClasses } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormDialog from "../../User/Components/FormDialog";
-import CFFForm from "../../User/Components/CFFForm";
-import NavBar from "../../User/Components/NavBar";
-import "../TableOverall.css"
+import FormDialog from "../Components/FormDialog";
+import CFFForm from "../Components/CFFForm";
+import NavBar from "../Components/NavBar";
 import { AuthContext } from "../../context/auth-context";
 import { useAuth } from "../../hooks/auth-hook"
-import PrintCards from "../../User/Components/PrintCards"
+import PrintCards from "../Components/PrintCards"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee, faPenToSquare, faPrint, faTrash } from '@fortawesome/free-solid-svg-icons'
 
@@ -312,6 +311,7 @@ function AllUserTables(){
           boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
           alignItems: "center",
           borderRadius: "10px",
+          backgroundColor: "white",
         }}>
           <div>
             <TextField 
@@ -356,7 +356,8 @@ function AllUserTables(){
             <div>
             {/* <PrintCards tabledata= {selectedRows}/> */}
             <Button onClick={printData} variant="contained" style={{ height:"3.2rem" }}>
-              Print All
+            {/* <FontAwesomeIcon icon={faPrint} /> */}
+            Print All
             </Button>
             </div>
 
@@ -369,10 +370,12 @@ function AllUserTables(){
           width: "100%",
           marginLeft: "5rem" 
           }}>
-            <div style={{ marginTop: "3rem", 
+          
+          <div style={{ marginTop: "3rem", 
           height: "65vh", 
           width: '92%', 
           boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+          backgroundColor: "white",
           }}>
         {<DataGrid
           rows={filteredRows}

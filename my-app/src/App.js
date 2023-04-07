@@ -7,14 +7,12 @@ import {
   Redirect,
 } from "react-router-dom";
 import Users from "./User/Pages/Users";
-import Orders from "./Orders/Pages/Orders";
 import MainNavigation from "./Shared/Components/Navigation/MainNavigation";
 import CFFForm from "./User/Components/CFFForm";
-import Login from "./User/Login/Login";
+import Login from "./User/Pages/Login";
 import Signup from "./User/Login/Signup";
 import Auth from "./User/Pages/Auth";
-import AllUserTables from "./Table/Pages/AllUserTables";
-import TestTable from "./Table/Pages/TestTable";
+import AllUserTables from "./User/Pages/AllUserTables";
 import { AuthContext } from "./context/auth-context";
 import Home from "./User/Login/Home";
 import PrintCards from "./User/Components/PrintCards";
@@ -27,10 +25,9 @@ const App = () => {
   if (token) {
     routes = (
       <React.Fragment>
-        <Route path="/" element={<CFFForm />} />
+        {/* <Route path="/" element={<CFFForm />} /> */}
         <Route path="/card" element={<PrintCards />} />
-        <Route path="/orders" element={<AllUserTables />} />
-        <Route path="/test" element={<TestTable />} />
+        <Route path="/" element={<AllUserTables />} />
         <Route path="/login" element={<Login />} />
       </React.Fragment>
     );
@@ -40,8 +37,7 @@ const App = () => {
         <Route path="/" element={<Auth />} />
         <Route path="/card" element={<PrintCards />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/orders" element={<AllUserTables />} />
-        <Route path="/test" element={<TestTable />} />
+        {/* <Route path="/orders" element={<AllUserTables />} /> */}
       </React.Fragment>
     );
   }
@@ -57,19 +53,6 @@ const App = () => {
         </Routes>
       </Router>
     </AuthContext.Provider>
-    // =======
-    //     <Router>
-    //       {/* <Switch> */}
-    //       <Routes>
-    //         <Route path="/">
-    //           {/* <CFFForm /> */}
-    //           <Route path="/" element={<Login />} />
-    //           <Route path="/signup" element={<Signup />} />
-    //         </Route>
-    //       </Routes>
-    //       {/* </Switch> */}
-    //     </Router>
-    // >>>>>>> 5aebf5af19735cf5a03c60dcc749f861026feb0b
   );
 };
 

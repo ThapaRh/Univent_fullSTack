@@ -1,5 +1,5 @@
 import React, { Component, useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import logo from "../Login/Arlington.jpeg";
 import "../Login/logo.css";
@@ -9,6 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -18,61 +19,17 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
-function Auth() {
-  const navigate = useNavigate();
-  const auth = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  async function submit(e) {
-    e.preventDefault();
-    let response;
-    try {
-      response = await fetch("http://localhost:8000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-    } catch (e) {
-      console.log(e);
-    }
-    const responseData = await response.json();
-    auth.login(responseData.userId, responseData.token);
-    navigate("/");
-    console.log(responseData);
-  }
+export default function SignIn() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
 
   return (
-    // <div className="login">
-    //   <h1>Login</h1>
-    //   <form action="POST">
-    //     <input
-    //       type="email"
-    //       onChange={(e) => {
-    //         setEmail(e.target.value);
-    //       }}
-    //       placeholder="Email"
-    //     ></input>
-    //     <input
-    //       type="password"
-    //       onChange={(e) => {
-    //         setPassword(e.target.value);
-    //       }}
-    //       placeholder="Password"
-    //     ></input>
-    //     <input type="submit" onClick={submit}></input>
-    //   </form>
-    //   <br />
-    //   <p>OR</p>
-    //   <br />
-    //   <Link to="/signup">Signup Page</Link>
-    // </div>
-
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -92,7 +49,12 @@ function Auth() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={submit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -102,10 +64,6 @@ function Auth() {
               name="email"
               autoComplete="email"
               autoFocus
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
             />
             <TextField
               margin="normal"
@@ -116,10 +74,6 @@ function Auth() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -130,7 +84,6 @@ function Auth() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={submit}
             >
               Log In
             </Button>
@@ -147,5 +100,3 @@ function Auth() {
     </ThemeProvider>
   );
 }
-
-export default Auth;
