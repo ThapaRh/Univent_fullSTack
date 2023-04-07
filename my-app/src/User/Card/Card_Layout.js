@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import photo from './New_Arlington.jpeg'
+import QRCode from 'qrcode.react';
 
 export default function ActionAreaCard(props) {
     console.log(props.data)
@@ -37,6 +38,9 @@ export default function ActionAreaCard(props) {
 
           Flag #10
           </Typography>
+          <div style={{ position: 'absolute', bottom: 10, right: 10 }}>
+            <QRCode value="https://example.com" size={50} />
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>
