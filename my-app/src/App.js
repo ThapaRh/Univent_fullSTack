@@ -16,6 +16,7 @@ import AllUserTables from "./User/Pages/AllUserTables";
 import { AuthContext } from "./context/auth-context";
 import Home from "./User/Login/Home";
 import PrintCards from "./User/Components/PrintCards";
+import { Card } from "@material-ui/core";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
