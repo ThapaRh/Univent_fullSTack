@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 import logo from "../Login/Arlington.jpeg";
 import "../Login/logo.css";
+import "../Pages/Auth.css";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,15 +19,49 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
+
 function Auth() {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError]= useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
+  const handleEmailChange=(e)=>{
+    setSuccessMessage('');
+    setEmailError('');
+    setEmail(e.target.value);
+  }
+  const handlePasswordChange=(e)=>{
+    setSuccessMessage('');
+    setPasswordError('');
+    setPassword(e.target.value);
+  }
   async function submit(e) {
     e.preventDefault();
     let response;
+    if(email!==''){
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if(emailRegex.test(email)){
+        setEmailError('');
+      }
+      else{
+        setEmailError('Invalid Email');
+      }
+    }
+    else{
+      setEmailError('Email Required!');
+    }
+    if(password!==''){
+
+    }
+    else{
+      setPasswordError('Password Required!')
+    }
+
+    
     try {
       response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
@@ -45,33 +80,30 @@ function Auth() {
     auth.login(responseData.userId, responseData.token);
     navigate("/");
     console.log(responseData);
+
+    // if(email!==''){
+    //   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    //   if(emailRegex.test(email)){
+    //     setEmailError('');
+    //   }
+    //   else{
+    //     setEmailError('Invalid Email');
+    //   }
+    // }
+    // else{
+    //   setEmailError('Email Required!');
+    // }
+    // if(password!==''){
+
+    // }
+    // else{
+    //   setPasswordError('Password Required!')
+    // }
+
+   
   }
 
   return (
-    // <div className="login">
-    //   <h1>Login</h1>
-    //   <form action="POST">
-    //     <input
-    //       type="email"
-    //       onChange={(e) => {
-    //         setEmail(e.target.value);
-    //       }}
-    //       placeholder="Email"
-    //     ></input>
-    //     <input
-    //       type="password"
-    //       onChange={(e) => {
-    //         setPassword(e.target.value);
-    //       }}
-    //       placeholder="Password"
-    //     ></input>
-    //     <input type="submit" onClick={submit}></input>
-    //   </form>
-    //   <br />
-    //   <p>OR</p>
-    //   <br />
-    //   <Link to="/signup">Signup Page</Link>
-    // </div>
 
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -102,11 +134,14 @@ function Auth() {
               name="email"
               autoComplete="email"
               autoFocus
+              // onChange={(e) => {
+              //   setEmail(e.target.value);
+              // }}
+              onChange={handleEmailChange} 
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
             />
+            {emailError&&<div className="error-msg">{emailError}</div>}
+            
             <TextField
               margin="normal"
               required
@@ -116,11 +151,14 @@ function Auth() {
               type="password"
               id="password"
               autoComplete="current-password"
+              // onChange={(e) => {
+              //   setPassword(e.target.value);
+              // }}
+              onChange={handlePasswordChange}
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
             />
+            {passwordError&&<div className="error-msg">{passwordError}</div>}
+            
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
