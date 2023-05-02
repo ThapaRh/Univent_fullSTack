@@ -14,12 +14,15 @@ export default function ActionAreaCard(props) {
     console.log(props.data)
   return (
     <div className="centered-card-container">
-    <Card justify="center" sx={{ maxWidth: 1000 }}>
-      <CardActionArea>
+    <Card justify="center" sx={{ width: '100%', height:'100%' }}>
+      
         <CardMedia
           component="img"
-          height={300}
+          width="50"
+          height="145"
           image={photo}
+          justify-content = "center"
+          align-items="center"
           alt='Field of Honor'
           style={{ width: '100%', objectFit: 'cover' }}
         />
@@ -42,7 +45,6 @@ export default function ActionAreaCard(props) {
             <QRCode value="https://example.com" size={50} />
           </div>
         </CardContent>
-      </CardActionArea>
     </Card>
     {/* <ReacttoPrint
         trigger ={()=> {

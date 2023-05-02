@@ -61,7 +61,6 @@ function Auth() {
       setPasswordError('Password Required!')
     }
 
-    
     try {
       response = await fetch("http://localhost:8000/api/users/login", {
         method: "POST",
@@ -81,26 +80,6 @@ function Auth() {
     navigate("/");
     console.log(responseData);
 
-    // if(email!==''){
-    //   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    //   if(emailRegex.test(email)){
-    //     setEmailError('');
-    //   }
-    //   else{
-    //     setEmailError('Invalid Email');
-    //   }
-    // }
-    // else{
-    //   setEmailError('Email Required!');
-    // }
-    // if(password!==''){
-
-    // }
-    // else{
-    //   setPasswordError('Password Required!')
-    // }
-
-   
   }
 
   return (
